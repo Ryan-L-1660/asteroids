@@ -1,6 +1,6 @@
 # imports the pygame module
 import pygame
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT # imports the constants from the constants file
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, PLAYER_SHOOT_SPEED # imports the constants from the constants file
 from player import Player
 from asteroid import Asteroid 
 from asteroidfield import AsteroidField    
@@ -47,7 +47,9 @@ def main(): # main function declaration
                 pygame.quit()
                 quit()
         
-        
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                shot = player.shoot()
+                shots_group.add(shot)
         updateable.update(dt)
 
         # dectect asteroids
