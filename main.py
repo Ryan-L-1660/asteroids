@@ -38,6 +38,13 @@ def main(): # main function declaration
         
         
         updateable.update(dt)
+
+        # dectect asteroids
+        for asteroid in asteroids:
+            if player.check_for_collision(asteroid):
+                print("Game Over!")
+                pygame.quit()
+                quit()
         screen.fill((0, 0, 0)) # fills black screen
         for sprite in drawable:
             sprite.draw(screen)
