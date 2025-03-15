@@ -14,7 +14,7 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
 
         # Create a transparent image for the sprite
         self.image = pygame.Surface((PLAYER_RADIUS * 2, PLAYER_RADIUS * 2), pygame.SRCALPHA)
-        self.update_image()
+        
 
         # Create a rect for positioning and set its center
         self.rect = self.image.get_rect()
@@ -55,7 +55,7 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
 
-        
+        print(self.position)
 
         
 
