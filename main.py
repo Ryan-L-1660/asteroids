@@ -27,9 +27,9 @@ def main(): # main function declaration
         screen.fill((0, 0, 0)) # fills black screen
         player.draw(screen) # draws the player
         pygame.display.flip() # updates the screen with the new changes
-        
-
         dt = clock.tick(60) / 1000 # sets the fps to 60 and gets the delta time
+        player.update(dt) # updates the player
+       
 
 
 
