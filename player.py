@@ -1,6 +1,6 @@
 from circleshape import CircleShape, Shot
 import pygame
-from constants import SCREEN_HEIGHT, SCREEN_WIDTH, PLAYER_TURN_SPEED, PLAYER_RADIUS, PLAYER_SPEED, PLAYER_SHOOT_SPEED
+from constants import SCREEN_HEIGHT, SCREEN_WIDTH, PLAYER_TURN_SPEED, PLAYER_RADIUS, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN
 
 
 class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
@@ -66,18 +66,21 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
         self.position += forward * PLAYER_SPEED * dt
 
     def shoot(self):
-        print(f"Shoot called, cooldown: {self.shot_cooldown}")
         if self.shot_cooldown <= 0:
-            print("Creating shot!")
-            # Create a new shot at the player's position
-            shot = Shot(self.position.x, self.position.y)
+            forward = pygame.Vector2(0, 1).rotate(self.rotation)
+            nose_position = self.position + forward * self.radius
             
-            # Set the shot's velocity based on the player's direction
-            direction = pygame.Vector2(0, -1)
-            direction = direction.rotate(-self.rotation)
-            shot.velocity = direction * PLAYER_SHOOT_SPEED
+            # Create a new shot and make sure it's added to the containers
+            shot = Shot(nose_position.x, nose_position.y)
+            Shot.containers[0].add(shot)  # Add to shots_group
+            Shot.containers[1].add(shot)  # Add to updateable
+            Shot.containers[2].add(shot)  # Add to drawable
+            Shot.containers[3].add(shot)  # Add to all_sprites
             
-            self.shot_cooldown = 0.25
+            # Set velocity
+            shot.velocity = forward * PLAYER_SHOOT_SPEED
+            
+            self.shot_cooldown = PLAYER_SHOOT_COOLDOWN
             return shot
         return None
 
