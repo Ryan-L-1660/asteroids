@@ -67,7 +67,7 @@ def main(): # main function declaration
         for shot in shots_group:
             for asteroid in asteroids:
                 if shot.check_for_collision(asteroid):
-                    asteroid.kill()
+                    asteroid.split()
                     shot.kill()
                     break
         
