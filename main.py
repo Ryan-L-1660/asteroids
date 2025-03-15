@@ -2,26 +2,29 @@
 import pygame
 from constants import *
 
-pygame.init() # initializes pygame
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # makes a screen with the dimensions of SCREEN_WIDTH and SCREEN_HEIGHT
-
 
 
 def main(): # main function declaration
+    pygame.init() # initializes pygame
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # makes a screen with the dimensions of SCREEN_WIDTH and SCREEN_HEIGHT
+    clock = pygame.time.Clock() # creates a clock object
+    dt = 0 # delta time
+
     print("Starting Asteroids!")
-    print("Screen width:",SCREEN_WIDTH)
+    print("Screen width:",SCREEN_WIDTH)  # prints the screen width and height and starting message
     print("Screen height:",SCREEN_HEIGHT)
 
 
+    while True: # main game Loop
+        for event in pygame.event.get(): # gets all the events that are happening and when user quits it wont throw an error
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
 
+        screen.fill((0, 0, 0)) # fills black screen
+        pygame.display.flip() # updates the screen 
 
-while True: # main game Loop
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            quit()
-    screen.fill((0, 0, 0)) # fills black screen
-    pygame.display.flip() # updates the screen !!need to change to 60 fps!! 
+        dt = clock.tick(60) / 1000 # sets the fps to 60 and gets the delta time
 
 
 
