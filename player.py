@@ -2,19 +2,21 @@ from circleshape import CircleShape
 import pygame
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH, PLAYER_TURN_SPEED, PLAYER_RADIUS, PLAYER_SPEED
 
-class Player(CircleShape):
+class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
     def __init__(self, x, y):
-        super().__init__(x, y, PLAYER_RADIUS)
-        self.rotation = 0
+        # Initialize parent classes
         CircleShape.__init__(self, x, y, PLAYER_RADIUS)
         pygame.sprite.Sprite.__init__(self)
-       
+
+        # Rotation angle and position
+        self.rotation = 0
+        self.position = pygame.Vector2(x, y)
+
+        # Create a transparent image for the sprite
         self.image = pygame.Surface((PLAYER_RADIUS * 2, PLAYER_RADIUS * 2), pygame.SRCALPHA)
-        
+        self.update_image()
 
-        pygame.draw.polygon(self.image, (255, 255, 255), self.triangle(), 2)
-        
-
+        # Create a rect for positioning and set its center
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
     
@@ -53,14 +55,10 @@ class Player(CircleShape):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
 
-        print(self.position)
+        
 
         
-        self.updatables = pygame.sprite.Group()
-        self.drawables = pygame.sprite.Group()
 
-        self.updatables.add(self)
-        self.drawables.add(self)
 
     
     
