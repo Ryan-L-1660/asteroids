@@ -2,7 +2,8 @@
 import pygame
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT # imports the constants from the constants file
 from player import Player
-from asteroid import Asteroid                                   # imports the player class from the player file
+from asteroid import Asteroid 
+from asteroidfield import AsteroidField                                  # imports the player class from the player file
 
 
 
@@ -23,10 +24,12 @@ def main(): # main function declaration
     drawable = pygame.sprite.Group() # creates a group for the player
     Player.containers = (updateable, drawable) # sets the containers for the player   
     
-    pygame.sprite.Group() # creates a group for the asteroids
+    asteroids = pygame.sprite.Group() # creates a group for the asteroids
     Asteroid.containers = (asteroids, updateable, drawable) # sets the containers for the asteroids
+    AsteroidField.containers = (updateable,) # sets the containers for the asteroid field
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  # Player is added to both groups here
-
+    asteroid_field = AsteroidField() # creates an asteroid field object
+    
     while True: # main game Loop
         for event in pygame.event.get(): # gets all the events that are happening and when user quits it wont throw an error
             if event.type == pygame.QUIT:

@@ -8,8 +8,7 @@ class Asteroid(CircleShape):
     def __init__(self, x, y, radius):
         # initialize parent class 
         CircleShape.__init__(self, x, y, radius)
-        self.radius = radius
-        # velocity will be set by AsteroidField
+     
     
 
     def draw(self, screen):
