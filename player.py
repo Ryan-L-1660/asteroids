@@ -1,6 +1,7 @@
-from circleshape import CircleShape
+from circleshape import CircleShape, Shot
 import pygame
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH, PLAYER_TURN_SPEED, PLAYER_RADIUS, PLAYER_SPEED, PLAYER_SHOOT_SPEED
+
 
 class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
     def __init__(self, x, y):
@@ -50,18 +51,19 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
         if keys[pygame.K_s]:
             self.move(-dt)
 
+        if keys[pygame.K_SPACE]:
+            self.shoot()
+
 
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
 
     def shoot(self):
-        new_shot = Shot.(self.position.x, self.position.y)
+        shot = Shot(*self.position.x, self.position.y)
+
+        direction = pygame.Vector2(0, -1)
     
-        shot_velocity = pygame.Vector2(0, -1)
-        shot_velocity = shot_velocity.rotate(-self.rotation)
-        shot_velocity = shot_velocity * PLAYER_SHOOT_SPEED
-        new_shot.velocity = shot_velocity
 
 
     

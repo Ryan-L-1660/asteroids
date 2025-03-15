@@ -4,7 +4,7 @@ PLAYER_TURN_SPEED = 300 # degrees per second
 PLAYER_SPEED = 200  # pixels per second
 WHITE = (255, 255, 255)
 
-
+SHOT_RADIUS = 5
 ASTEROID_MIN_RADIUS = 20
 ASTEROID_KINDS = 3
 ASTEROID_SPAWN_RATE = 0.8  # seconds
