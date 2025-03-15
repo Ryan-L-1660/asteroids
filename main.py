@@ -3,7 +3,9 @@ import pygame
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT # imports the constants from the constants file
 from player import Player
 from asteroid import Asteroid 
-from asteroidfield import AsteroidField                                  # imports the player class from the player file
+from asteroidfield import AsteroidField    
+from circleshape import Shot                              
+# imports the player class from the player file
 
 
 
@@ -19,16 +21,25 @@ def main(): # main function declaration
     print("Screen width:",SCREEN_WIDTH)  # prints the screen width and height and starting message
     print("Screen height:",SCREEN_HEIGHT)
 
- 
-    updateable = pygame.sprite.Group() # creates a group for the player
-    drawable = pygame.sprite.Group() # creates a group for the player
-    Player.containers = (updateable, drawable) # sets the containers for the player   
+    Shot.containers = (shots_group, updateable, drawable, all_sprites)  # Add shots to updateable and drawable too
     
-    asteroids = pygame.sprite.Group() # creates a group for the asteroids
-    Asteroid.containers = (asteroids, updateable, drawable) # sets the containers for the asteroids
-    AsteroidField.containers = (updateable,) # sets the containers for the asteroid field
-    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)  # Player is added to both groups here
-    asteroid_field = AsteroidField() # creates an asteroid field object
+    # Initialize groups first
+    updateable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    shots_group = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+    all_sprites = pygame.sprite.Group()
+
+    # Set containers
+    Player.containers = (updateable, drawable)
+    Asteroid.containers = (asteroids, updateable, drawable)
+    AsteroidField.containers = (updateable,)
+    Shot.containers = (shots_group, updateable, drawable, all_sprites)
+
+    # Then create instances
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    asteroid_field = AsteroidField()  # Create it only once
+
     
     while True: # main game Loop
         for event in pygame.event.get(): # gets all the events that are happening and when user quits it wont throw an error
