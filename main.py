@@ -15,7 +15,7 @@ def main(): # main function declaration
     print("Screen width:",SCREEN_WIDTH)  # prints the screen width and height and starting message
     print("Screen height:",SCREEN_HEIGHT)
 
-    Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2) # creates a player object
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2) # creates a player object
 
 
     while True: # main game Loop
@@ -25,9 +25,9 @@ def main(): # main function declaration
                 quit()
 
         screen.fill((0, 0, 0)) # fills black screen
-        pygame.display.flip() # updates the screen 
-        player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2) # creates a player object
         player.draw(screen) # draws the player
+        pygame.display.flip() # updates the screen with the new changes
+        
 
         dt = clock.tick(60) / 1000 # sets the fps to 60 and gets the delta time
 
