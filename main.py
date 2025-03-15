@@ -42,29 +42,32 @@ def main(): # main function declaration
     asteroid_field = AsteroidField()  # Create it only once
 
     
-    while True: # main game Loop
-        for event in pygame.event.get(): # gets all the events that are happening and when user quits it wont throw an error
+    while True:
+        for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
         
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                shot = player.shoot()
-                if shot:
-                    shots_group.add(shot)
+        # Handle continuous shooting with the spacebar
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_SPACE]:
+            shot = player.shoot()
+            # Shot is automatically added to shots_group through containers
+        
         updateable.update(dt)
-
-        # dectect asteroids
+        
+        # Check for collisions
         for asteroid in asteroids:
             if player.check_for_collision(asteroid):
                 print("Game Over!")
                 pygame.quit()
                 quit()
-        screen.fill((0, 0, 0)) # fills black screen
+        
+        screen.fill((0, 0, 0))
         for sprite in drawable:
             sprite.draw(screen)
-        pygame.display.flip() # updates the screen with the new changes
-        dt = clock.tick(60) / 1000 # sets the fps to 60 and gets the delta time
+        pygame.display.flip()
+        dt = clock.tick(60) / 1000  # Sets the fps to 60 and gets the delta time
         
         
        
