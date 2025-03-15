@@ -17,8 +17,8 @@ def main(): # main function declaration
 
 while True: # main game Loop
     screen.fill((0, 0, 0)) # fills black screen
-    pygame.display.flip() # updates the screen !!need to change to 60 fps!! 
-    
+    pygame.display.flip(60) # updates the screen !!need to change to 60 fps!! 
+
 
 
 
