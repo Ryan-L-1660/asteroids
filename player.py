@@ -55,8 +55,7 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
 
-        print(self.position)
-
+        
         
 
 
