@@ -1,7 +1,7 @@
 SCREEN_WIDTH = 1920
 SCREEN_HEIGHT = 1080
-PLAYER_TURN_SPEED = 300 # degrees per second
-PLAYER_SPEED = 200 # pixels per second
+PLAYER_TURN_SPEED = 3000 # degrees per second
+PLAYER_SPEED = 5000 # pixels per second
 
 WHITE = (255, 255, 255)
 ASTEROID_MIN_RADIUS = 20
