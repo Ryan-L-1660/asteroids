@@ -1,6 +1,7 @@
 # imports the pygame module
 import pygame
-from constants import *
+from constants import (SCREEN_WIDTH, SCREEN_HEIGHT) # imports the constants from the constants file
+from player import Player
 
 
 
@@ -14,6 +15,8 @@ def main(): # main function declaration
     print("Screen width:",SCREEN_WIDTH)  # prints the screen width and height and starting message
     print("Screen height:",SCREEN_HEIGHT)
 
+    Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2) # creates a player object
+
 
     while True: # main game Loop
         for event in pygame.event.get(): # gets all the events that are happening and when user quits it wont throw an error
@@ -23,6 +26,8 @@ def main(): # main function declaration
 
         screen.fill((0, 0, 0)) # fills black screen
         pygame.display.flip() # updates the screen 
+        player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2) # creates a player object
+        player.draw(screen) # draws the player
 
         dt = clock.tick(60) / 1000 # sets the fps to 60 and gets the delta time
 
