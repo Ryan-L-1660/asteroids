@@ -1,6 +1,6 @@
 # imports the pygame module
 import pygame
-from constants import (SCREEN_WIDTH, SCREEN_HEIGHT, PLAYER_TURN_SPEED) # imports the constants from the constants file
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT # imports the constants from the constants file
 from player import Player
 
 
@@ -16,7 +16,9 @@ def main(): # main function declaration
     print("Screen height:",SCREEN_HEIGHT)
 
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2) # creates a player object
-
+    updateable = pygame.sprite.Group() # creates a group for the player
+    drawable = pygame.sprite.Group() # creates a group for the player
+    Player.containers = (updateable, drawable) # sets the containers for the player
 
     while True: # main game Loop
         for event in pygame.event.get(): # gets all the events that are happening and when user quits it wont throw an error
@@ -25,10 +27,10 @@ def main(): # main function declaration
                 quit()
 
         screen.fill((0, 0, 0)) # fills black screen
-        player.draw(screen) # draws the player
+        drawable.draw(screen) # draws the player
         pygame.display.flip() # updates the screen with the new changes
         dt = clock.tick(60) / 1000 # sets the fps to 60 and gets the delta time
-        player.update(dt) # updates the player
+        updateable.update(dt) # updates the player
        
 
 
