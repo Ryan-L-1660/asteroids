@@ -60,15 +60,17 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
         self.position += forward * PLAYER_SPEED * dt
 
     def shoot(self):
-        # Create a new shot at the player's position
-        shot = Shot(self.position.x, self.position.y)
-        
-        # Set the shot's velocity based on the player's direction
-        direction = pygame.Vector2(0, -1)
-        direction = direction.rotate(-self.rotation)  # Assuming rotation is in degrees
-        shot.velocity = direction * PLAYER_SHOOT_SPEED
-        
-        return shot
+        if self.shot_cooldown <= 0:
+            # Create a new shot at the player's position
+            shot = Shot(self.position.x, self.position.y)
+            
+            # Set the shot's velocity based on the player's direction
+            direction = pygame.Vector2(0, -1)
+            direction = direction.rotate(-self.rotation)  # Assuming rotation is in degrees
+            shot.velocity = direction * PLAYER_SHOOT_SPEED
+            self.shot_cooldown = 0.25
+            return shot
+        return None
         
 
 

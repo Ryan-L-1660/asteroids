@@ -21,7 +21,7 @@ def main(): # main function declaration
     print("Screen width:",SCREEN_WIDTH)  # prints the screen width and height and starting message
     print("Screen height:",SCREEN_HEIGHT)
 
-    Shot.containers = (shots_group, updateable, drawable, all_sprites)  # Add shots to updateable and drawable too
+     
     
     # Initialize groups first
     updateable = pygame.sprite.Group()
@@ -31,6 +31,7 @@ def main(): # main function declaration
     all_sprites = pygame.sprite.Group()
 
     # Set containers
+    
     Player.containers = (updateable, drawable)
     Asteroid.containers = (asteroids, updateable, drawable)
     AsteroidField.containers = (updateable,)
