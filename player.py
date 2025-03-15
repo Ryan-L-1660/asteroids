@@ -36,8 +36,11 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
 
 
     def update(self, dt):
+        
+        if self.shot_cooldown > 0:
+            self.shot_cooldown -= dt
         keys = pygame.key.get_pressed()
-
+        
         if keys[pygame.K_a]:
             self.rotate(-dt)
 
@@ -63,13 +66,15 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
         self.position += forward * PLAYER_SPEED * dt
 
     def shoot(self):
+        print(f"Shoot called, cooldown: {self.shot_cooldown}")
         if self.shot_cooldown <= 0:
+            print("Creating shot!")
             # Create a new shot at the player's position
             shot = Shot(self.position.x, self.position.y)
             
             # Set the shot's velocity based on the player's direction
             direction = pygame.Vector2(0, -1)
-            direction = direction.rotate(-self.rotation)  # Use rotation instead of angle
+            direction = direction.rotate(-self.rotation)
             shot.velocity = direction * PLAYER_SHOOT_SPEED
             
             self.shot_cooldown = 0.25
