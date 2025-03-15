@@ -11,6 +11,7 @@ def main(): # main function declaration
     clock = pygame.time.Clock() # creates a clock object
     dt = 0 # delta time
     pygame.display.set_caption("Asteroids!") # sets the title of the window
+    pygame.display.set_icon(pygame.image.load("assets/2531022.png")) # sets the icon of the window
 
     print("Starting Asteroids!")
     print("Screen width:",SCREEN_WIDTH)  # prints the screen width and height and starting message
