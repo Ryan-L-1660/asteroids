@@ -1,6 +1,6 @@
 # imports the pygame module
 import pygame
-from constants import (SCREEN_WIDTH, SCREEN_HEIGHT) # imports the constants from the constants file
+from constants import (SCREEN_WIDTH, SCREEN_HEIGHT, PLAYER_TURN_SPEED) # imports the constants from the constants file
 from player import Player
 
 
