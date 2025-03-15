@@ -6,6 +6,24 @@ class Player(CircleShape):
     def __init__(self, x, y):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
+        CircleShape.__init__(self, x, y, PLAYER_RADIUS)
+        pygame.sprite.Sprite.__init__(self)
+       
+        self.image = pygame.Surface((PLAYER_RADIUS * 2, PLAYER_RADIUS * 2), pygame.SRCALPHA)
+        
+
+        pygame.draw.polygon(self.image, (255, 255, 255), self.triangle(), 2)
+        
+
+        self.rect = self.image.get_rect()
+        self.rect.center = (x, y)
+    
+    
+    
+    
+    
+    
+    
     def draw(self, screen):
         pygame.draw.polygon(screen, "white", self.triangle(), 2)
     
@@ -24,18 +42,25 @@ class Player(CircleShape):
             self.rotate(+dt)
 
         if keys[pygame.K_w]:
-            forward = pygame.Vector2(0, 1).rotate(self.rotation)
-            self.position += forward * PLAYER_SPEED * dt
+            self.move(dt)
+ 
         
         if keys[pygame.K_s]:
-            forward = pygame.Vector2(0, 1).rotate(self.rotation)
-            self.position -= forward * PLAYER_SPEED * dt
+            self.move(-dt)
+
 
     def move(self, dt):
-        keys = pygame.key.get_pressed()
+        forward = pygame.Vector2(0, 1).rotate(self.rotation)
+        self.position += forward * PLAYER_SPEED * dt
+
+        print(self.position)
 
         
-            
+        self.updatables = pygame.sprite.Group()
+        self.drawables = pygame.sprite.Group()
+
+        self.updatables.add(self)
+        self.drawables.add(self)
 
     
     
