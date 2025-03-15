@@ -10,6 +10,7 @@ def main(): # main function declaration
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # makes a screen with the dimensions of SCREEN_WIDTH and SCREEN_HEIGHT
     clock = pygame.time.Clock() # creates a clock object
     dt = 0 # delta time
+    pygame.display.set_caption("Asteroids!") # sets the title of the window
 
     print("Starting Asteroids!")
     print("Screen width:",SCREEN_WIDTH)  # prints the screen width and height and starting message
