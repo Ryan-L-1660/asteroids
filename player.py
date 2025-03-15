@@ -5,6 +5,7 @@ from constants import SCREEN_HEIGHT, SCREEN_WIDTH, PLAYER_TURN_SPEED, PLAYER_RAD
 
 class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
     def __init__(self, x, y):
+        self.shot_cooldown = 0
         # Initialize parent classes
         CircleShape.__init__(self, x, y, PLAYER_RADIUS)
         pygame.sprite.Sprite.__init__(self)
@@ -53,6 +54,9 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
 
         if keys[pygame.K_SPACE]:
             self.shoot()
+        
+        if self.shot_cooldown > 0:
+            self.shot_cooldown -= dt
 
 
     def move(self, dt):
@@ -62,11 +66,12 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
     def shoot(self):
         if self.shot_cooldown <= 0:
             # Create a new shot at the player's position
-            shot = Shot(self.position.x, self.position.y)
+            shot = Shot(self.x, self.y)
             
             # Set the shot's velocity based on the player's direction
             direction = pygame.Vector2(0, -1)
-            direction = direction.rotate(-self.rotation)  # Assuming rotation is in degrees
+            direction = direction.rotate(-self.angle)  # Assuming rotation is in degrees
+            shot.velocity = direction * PLAYER_SHOOT_SPEED
             shot.velocity = direction * PLAYER_SHOOT_SPEED
             self.shot_cooldown = 0.25
             return shot

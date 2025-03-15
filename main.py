@@ -50,7 +50,8 @@ def main(): # main function declaration
         
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                 shot = player.shoot()
-                shots_group.add(shot)
+                if shot:
+                    shots_group.add(shot)
         updateable.update(dt)
 
         # dectect asteroids
