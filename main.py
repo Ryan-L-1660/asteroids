@@ -16,8 +16,13 @@ def main(): # main function declaration
 
 
 while True: # main game Loop
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            quit()
     screen.fill((0, 0, 0)) # fills black screen
-    pygame.display.flip(60) # updates the screen !!need to change to 60 fps!! 
+    pygame.display.flip() # updates the screen !!need to change to 60 fps!! 
+
 
 
 
