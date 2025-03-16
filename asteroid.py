@@ -2,6 +2,7 @@ import pygame
 from circleshape import CircleShape
 from constants import WHITE, ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS # Make sure WHITE is defined in constants.py
 import random
+import math
 
 class Asteroid(CircleShape):
     containers = None 
@@ -9,6 +10,16 @@ class Asteroid(CircleShape):
     def __init__(self, x, y, radius):
         # initialize parent class 
         CircleShape.__init__(self, x, y, radius)
+
+        self.vertices_offsets = []
+        num_vertices = random.randint(6, 10)
+        for i in range(num_vertices):
+            angle = 2 * math.pi * i / num_vertices
+            # Vary the radius a bit for each vertex to create lumpiness
+            jitter = random.uniform(0.8, 1.2)
+            offset_x = self.radius * jitter * math.cos(angle)
+            offset_y = self.radius * jitter * math.sin(angle)
+            self.vertices_offsets.append((offset_x, offset_y))
     
     def split(self):
         self.kill()
@@ -38,7 +49,17 @@ class Asteroid(CircleShape):
     
 
     def draw(self, screen):
-        pygame.draw.circle(screen, WHITE, (int(self.position.x), int(self.position.y)), self.radius, 2)
+        vertices = []
+
+        
+        for offset_x, offset_y in self.vertices_offsets:
+            x = int(self.position.x + offset_x)
+            y = int(self.position.y + offset_y)
+            vertices.append((x, y))
+
+
+
+        pygame.draw.polygon(screen, WHITE, vertices, 2)
 
     def update(self, dt):
         self.position += self.velocity * dt

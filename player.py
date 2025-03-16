@@ -1,8 +1,6 @@
 from circleshape import CircleShape, Shot
 import pygame
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH, PLAYER_TURN_SPEED, PLAYER_RADIUS, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN
-
-
 class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
     def __init__(self, x, y):
         self.shot_cooldown = 0
@@ -13,29 +11,47 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
         # Rotation angle and position
         self.rotation = 0
         self.position = pygame.Vector2(x, y)
-
+        
         # Create a transparent image for the sprite
         self.image = pygame.Surface((PLAYER_RADIUS * 2, PLAYER_RADIUS * 2), pygame.SRCALPHA)
         
-
         # Create a rect for positioning and set its center
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
-    
-    
-    
-    
-    
-    
+
+        # add invulnerability to player 
+        self.invulnerable = False
+        self.invulnerable_timer = 0
+
+
+    def reset_position(self, x, y):
+        """Reset the player's position to the specified coordinates."""
+        self.position = pygame.Vector2(x, y)
+        self.rect.center = (x, y)
+
+    def set_invulnerable(self, seconds):
+        """Make the player invulnerable for the specified number of seconds"""
+        self.invulnerable = True
+        self.invulnerable_timer = seconds
+
     
     def draw(self, screen):
-        pygame.draw.polygon(screen, "white", self.triangle(), 2)
+        if self.invulnerable:
+            if int(pygame.time.get_ticks() / 200) % 2 == 0:               
+                pygame.draw.polygon(screen, "white", self.triangle(), 2)
+        else:
+            pygame.draw.polygon(screen, "white", self.triangle(), 2)
     
     def rotate(self, dt):
         self.rotation += PLAYER_TURN_SPEED * dt
-
-
+        
     def update(self, dt):
+
+        if self.invulnerable:
+            self.invulnerable_timer -= dt
+            if self.invulnerable_timer <= 0:
+                self.invulnerable = False
+                self.invulnerable_timer = 0
         
         if self.shot_cooldown > 0:
             self.shot_cooldown -= dt
@@ -44,23 +60,18 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
         if keys[pygame.K_a]:
             self.rotate(-dt)
 
-
         if keys[pygame.K_d]:
             self.rotate(+dt)
 
         if keys[pygame.K_w]:
             self.move(dt)
  
-        
         if keys[pygame.K_s]:
             self.move(-dt)
 
         if keys[pygame.K_SPACE]:
             self.shoot()
         
-
-
-
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         self.position += forward * PLAYER_SPEED * dt
@@ -85,16 +96,7 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
         return None
 
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    # 
     def triangle(self):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
         right = pygame.Vector2(0, 1).rotate(self.rotation + 90) * self.radius / 1.5

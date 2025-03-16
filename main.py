@@ -1,6 +1,6 @@
 # imports the pygame module
 import pygame
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, PLAYER_SHOOT_SPEED, ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS # imports the constants from the constants file
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, PLAYER_SHOOT_SPEED, ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS 
 from player import Player
 from asteroid import Asteroid 
 from asteroidfield import AsteroidField    
@@ -45,9 +45,9 @@ def main(): # main function declaration
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     asteroid_field = AsteroidField()  # Create it only once
 
-    # score
+    # score and lives
     score = 0
-
+    lives = 3
     
     while True:
         for event in pygame.event.get():
@@ -68,15 +68,25 @@ def main(): # main function declaration
         
         # Check for collisions
         for asteroid in asteroids:
-            if player.check_for_collision(asteroid):
-                print("Game Over!")
-                game_over_font = pygame.font.Font(None, 72)
-                game_over_text = game_over_font.render("Game Over!", True, (255, 0, 0))
-                screen.blit(game_over_text, (SCREEN_WIDTH // 2 - 150, SCREEN_HEIGHT // 2 - 50))
-                pygame.display.flip()
-                pygame.time.wait(5000)
-                pygame.quit()
-                quit()
+            if player.check_for_collision(asteroid) and not player.invulnerable:
+                lives -= 1
+                if lives > 0:
+                    # respawn player
+                    player.reset_position(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+                    player.set_invulnerable(3) # make player no die 3 seconds
+                    print(f"Lives remaining: {lives}")
+                else:
+                    print("Game Over!")
+                    game_over_font = pygame.font.Font(None, 72)
+                    game_over_text = game_over_font.render("Game Over!", True, (255, 0, 0))
+                    game_over_score_font = pygame.font.Font(None, 72)
+                    game_over_score_text = game_over_score_font.render(f"Score: {score}", True, (255, 255, 255))
+                    screen.blit(game_over_score_text, (SCREEN_WIDTH // 2 - 150, SCREEN_HEIGHT // 2 + 20))
+                    screen.blit(game_over_text, (SCREEN_WIDTH // 2 - 150, SCREEN_HEIGHT // 2 - 50))
+                    pygame.display.flip()
+                    pygame.time.wait(5000)
+                    pygame.quit()
+                    quit()
 
         # Check for collisions between shots and asteroids
         for shot in shots_group:
@@ -97,7 +107,7 @@ def main(): # main function declaration
 
 
         
-
+        
         
         
         for sprite in drawable:
@@ -105,7 +115,9 @@ def main(): # main function declaration
 
         score_font = pygame.font.Font(None, 36)
         score_text = score_font.render(f"Score: {score}", True, (255, 255, 255))
+        lives_text = score_font.render(f"Lives: {lives}", True, (255, 255, 255))
         screen.blit(score_text, (10, 10)) 
+        screen.blit(lives_text, (10, 50))
         pygame.display.flip()
         dt = clock.tick(60) / 1000  # Sets the fps to 60 and gets the delta time
         
