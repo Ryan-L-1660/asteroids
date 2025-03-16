@@ -28,8 +28,8 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
 
     def switch_weapon(self):
         if self.weapon_type == "cannon":
-            self.weapon_type = "rapid"
-            print("Switched to rapid fire")
+            self.weapon_type = "minigun"
+            print("Switched to minigun fire")
         else:
             self.weapon_type = "cannon"
             print("Switched to cannon fire")

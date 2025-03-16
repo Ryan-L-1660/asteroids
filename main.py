@@ -4,13 +4,23 @@ from constants import SCREEN_WIDTH, SCREEN_HEIGHT, PLAYER_SHOOT_SPEED, ASTEROID_
 from player import Player
 from asteroid import Asteroid 
 from asteroidfield import AsteroidField    
-from circleshape import Shot                              
+from circleshape import Shot      
+import pygame.mixer                     
 # imports the player class from the player file
+try:
+    pygame.mixer.init()
+    small_explosion = pygame.mixer.Sound("small.mp3")
+    medium_explosion = pygame.mixer.Sound("medium.mp3")
+    large_explosion = pygame.mixer.Sound("large.mp3")
+except Exception as e:
+    print(f"Sound error: {e}")
+    small_explosion = medium_explosion = large_explosion = None
 
-
+   
 
 def main(): # main function declaration
     pygame.init() # initializes pygame
+    
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # makes a screen with the dimensions of SCREEN_WIDTH and SCREEN_HEIGHT
     clock = pygame.time.Clock() # creates a clock object
     dt = 0 # delta time
@@ -24,9 +34,7 @@ def main(): # main function declaration
     print("Starting Asteroids!")
     print("Screen width:",SCREEN_WIDTH)  # prints the screen width and height and starting message
     print("Screen height:",SCREEN_HEIGHT)
-
-     
-    
+ 
     # Initialize groups first
     updateable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
@@ -35,7 +43,6 @@ def main(): # main function declaration
     all_sprites = pygame.sprite.Group()
 
     # Set containers
-    
     Player.containers = (updateable, drawable)
     Asteroid.containers = (asteroids, updateable, drawable)
     AsteroidField.containers = (updateable,)
@@ -50,21 +57,16 @@ def main(): # main function declaration
     lives = 3
 
     
-    while True:
+    while True: # main while loop 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
                 
-                
-            
-        # Draw background
+        # Draw background and update the game 
         screen.blit(background, (0, 0))
-
         updateable.update(dt)
-        
-
-            
+              
         # Check for collisions
         for asteroid in asteroids:
             if player.check_for_collision(asteroid) and not player.invulnerable:
@@ -92,20 +94,26 @@ def main(): # main function declaration
             for asteroid in asteroids:
                 if shot.check_for_collision(asteroid):
                     asteroid.health -= shot.damage
-                    shot.kill()
-
+                    shot.kill()                                            
+                    
                     if asteroid.health <= 0:
-                        asteroid.split()
                         # add score number based on wat size astoroid is hit
                         if asteroid.radius <= ASTEROID_MIN_RADIUS:
+                            if small_explosion:
+                                small_explosion.play()
                             score += 100 # Small
                             print("Small asteroid destroyed +100 points")
                         elif asteroid.radius <= ASTEROID_MIN_RADIUS * 2:
+                            if medium_explosion:
+                                medium_explosion.play()
                             score += 50 # Medium
                             print("Medium asteroid destroyed +50 points")
-                        else: 
+                        else:
+                            if large_explosion:
+                                large_explosion.play() 
                             score += 20 # Large
                             print("Large asteroid destroyed +20 points")
+                        asteroid.split()
         
         for sprite in drawable:
             sprite.draw(screen)
