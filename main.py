@@ -16,7 +16,11 @@ def main(): # main function declaration
     dt = 0 # delta time
     pygame.display.set_caption("Asteroids!") # sets the title of the window
 
-
+    #background
+    background = pygame.image.load("background.png").convert()  
+    background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
+   
+    # starting message
     print("Starting Asteroids!")
     print("Screen width:",SCREEN_WIDTH)  # prints the screen width and height and starting message
     print("Screen height:",SCREEN_HEIGHT)
@@ -58,6 +62,7 @@ def main(): # main function declaration
             # Shot is automatically added to shots_group through containers
         
         
+        screen.blit(background, (0, 0)) # draw background
         
         updateable.update(dt)
         
@@ -67,7 +72,7 @@ def main(): # main function declaration
                 print("Game Over!")
                 game_over_font = pygame.font.Font(None, 72)
                 game_over_text = game_over_font.render("Game Over!", True, (255, 0, 0))
-                screen.blit(game_over_text, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 50))
+                screen.blit(game_over_text, (SCREEN_WIDTH // 2 - 150, SCREEN_HEIGHT // 2 - 50))
                 pygame.display.flip()
                 pygame.time.wait(5000)
                 pygame.quit()
@@ -77,7 +82,6 @@ def main(): # main function declaration
         for shot in shots_group:
             for asteroid in asteroids:
                 if shot.check_for_collision(asteroid):
-                    print(f"Asteroid hit! Radius: {asteroid.radius}")
                     asteroid.split()
                     shot.kill()
                     # add score number based on wat size astoroid is hit
@@ -87,15 +91,15 @@ def main(): # main function declaration
                     elif asteroid.radius <= ASTEROID_MIN_RADIUS * 2:
                         score += 50 # Medium
                         print("Medium asteroid destroyed +50 points")
-                    else: # Large
-                        score += 20
+                    else: 
+                        score += 20 # Large
                         print("Large asteroid destroyed +20 points")
 
 
         
 
         
-        screen.fill((0, 0, 0))
+        
         for sprite in drawable:
             sprite.draw(screen)
 
