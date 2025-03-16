@@ -48,24 +48,23 @@ def main(): # main function declaration
     # score and lives
     score = 0
     lives = 3
+
     
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-        
-        # Handle continuous shooting with the spacebar
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_SPACE]:
-            shot = player.shoot()
-            # Shot is automatically added to shots_group through containers
-        
-        
-        screen.blit(background, (0, 0)) # draw background
-        
+                
+                
+            
+        # Draw background
+        screen.blit(background, (0, 0))
+
         updateable.update(dt)
         
+
+            
         # Check for collisions
         for asteroid in asteroids:
             if player.check_for_collision(asteroid) and not player.invulnerable:
