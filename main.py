@@ -1,6 +1,6 @@
 # imports the pygame module
 import pygame
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, PLAYER_SHOOT_SPEED # imports the constants from the constants file
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, PLAYER_SHOOT_SPEED, ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS # imports the constants from the constants file
 from player import Player
 from asteroid import Asteroid 
 from asteroidfield import AsteroidField    
@@ -41,6 +41,9 @@ def main(): # main function declaration
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     asteroid_field = AsteroidField()  # Create it only once
 
+    # score
+    score = 0
+
     
     while True:
         for event in pygame.event.get():
@@ -54,12 +57,19 @@ def main(): # main function declaration
             shot = player.shoot()
             # Shot is automatically added to shots_group through containers
         
+        
+        
         updateable.update(dt)
         
         # Check for collisions
         for asteroid in asteroids:
             if player.check_for_collision(asteroid):
                 print("Game Over!")
+                game_over_font = pygame.font.Font(None, 72)
+                game_over_text = game_over_font.render("Game Over!", True, (255, 0, 0))
+                screen.blit(game_over_text, (SCREEN_WIDTH // 2 - 100, SCREEN_HEIGHT // 2 - 50))
+                pygame.display.flip()
+                pygame.time.wait(5000)
                 pygame.quit()
                 quit()
 
@@ -67,13 +77,31 @@ def main(): # main function declaration
         for shot in shots_group:
             for asteroid in asteroids:
                 if shot.check_for_collision(asteroid):
+                    print(f"Asteroid hit! Radius: {asteroid.radius}")
                     asteroid.split()
                     shot.kill()
-                    break
+                    # add score number based on wat size astoroid is hit
+                    if asteroid.radius <= ASTEROID_MIN_RADIUS:
+                        score += 100 # Small
+                        print("Small asteroid destroyed +100 points")
+                    elif asteroid.radius <= ASTEROID_MIN_RADIUS * 2:
+                        score += 50 # Medium
+                        print("Medium asteroid destroyed +50 points")
+                    else: # Large
+                        score += 20
+                        print("Large asteroid destroyed +20 points")
+
+
+        
+
         
         screen.fill((0, 0, 0))
         for sprite in drawable:
             sprite.draw(screen)
+
+        score_font = pygame.font.Font(None, 36)
+        score_text = score_font.render(f"Score: {score}", True, (255, 255, 255))
+        screen.blit(score_text, (10, 10)) 
         pygame.display.flip()
         dt = clock.tick(60) / 1000  # Sets the fps to 60 and gets the delta time
         
