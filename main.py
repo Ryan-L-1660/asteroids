@@ -92,23 +92,21 @@ def main(): # main function declaration
         for shot in shots_group:
             for asteroid in asteroids:
                 if shot.check_for_collision(asteroid):
-                    asteroid.split()
+                    asteroid.health -= shot.damage
                     shot.kill()
-                    # add score number based on wat size astoroid is hit
-                    if asteroid.radius <= ASTEROID_MIN_RADIUS:
-                        score += 100 # Small
-                        print("Small asteroid destroyed +100 points")
-                    elif asteroid.radius <= ASTEROID_MIN_RADIUS * 2:
-                        score += 50 # Medium
-                        print("Medium asteroid destroyed +50 points")
-                    else: 
-                        score += 20 # Large
-                        print("Large asteroid destroyed +20 points")
 
-
-        
-        
-        
+                    if asteroid.health <= 0:
+                        asteroid.split()
+                        # add score number based on wat size astoroid is hit
+                        if asteroid.radius <= ASTEROID_MIN_RADIUS:
+                            score += 100 # Small
+                            print("Small asteroid destroyed +100 points")
+                        elif asteroid.radius <= ASTEROID_MIN_RADIUS * 2:
+                            score += 50 # Medium
+                            print("Medium asteroid destroyed +50 points")
+                        else: 
+                            score += 20 # Large
+                            print("Large asteroid destroyed +20 points")
         
         for sprite in drawable:
             sprite.draw(screen)
@@ -116,8 +114,11 @@ def main(): # main function declaration
         score_font = pygame.font.Font(None, 36)
         score_text = score_font.render(f"Score: {score}", True, (255, 255, 255))
         lives_text = score_font.render(f"Lives: {lives}", True, (255, 255, 255))
-        screen.blit(score_text, (10, 10)) 
-        screen.blit(lives_text, (10, 50))
+        weapon_type_font = pygame.font.Font(None, 36)                      
+        weapon_type_text = weapon_type_font.render(f"Weapon Type: {player.weapon_type}", True, (255, 255, 255)) 
+        screen.blit(weapon_type_text, (595, 70))
+        screen.blit(score_text, (595, 10)) 
+        screen.blit(lives_text, (595, 40))
         pygame.display.flip()
         dt = clock.tick(60) / 1000  # Sets the fps to 60 and gets the delta time
         

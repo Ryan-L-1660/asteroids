@@ -33,7 +33,15 @@ class AsteroidField(pygame.sprite.Sprite):
         self.spawn_timer = 0.0
 
     def spawn(self, radius, position, velocity):
-        asteroid = Asteroid(position.x, position.y, radius)
+        if radius >= ASTEROID_MAX_RADIUS * 0.7:
+            size = "large"
+        elif radius >= ASTEROID_MIN_RADIUS * 2:
+            size = "medium"
+        else:
+            size = "small"
+        
+        
+        asteroid = Asteroid(position.x, position.y, radius, size)
         asteroid.velocity = velocity
 
     def update(self, dt):
