@@ -5,6 +5,8 @@ import pygame.mixer
 try:
     pygame.mixer.init()
     weapon_switch_sound = pygame.mixer.Sound("assets/changeweapon.wav")
+    minigun_sound = pygame.mixer.Sound("assets/minigun.wav")
+    cannon_sound = pygame.mixer.Sound("assets/cannonfire.wav")
 except Exception as e:
     print(f"Sound error: {e}")
 class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
@@ -157,13 +159,17 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
             # Set velocity
             shot.velocity = forward * PLAYER_SHOOT_SPEED
 
+            
+
             # Set damage and cooldown based on weapon type
             if self.weapon_type == "cannon":
                 shot.damage = 50
                 self.shot_cooldown = PLAYER_SHOOT_COOLDOWN
+                cannon_sound.play()
             else:  # rapid
                 shot.damage = 10
                 self.shot_cooldown = PLAYER_SHOOT_COOLDOWN / 5
+                minigun_sound.play()
             
             return shot
         return None

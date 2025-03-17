@@ -17,6 +17,8 @@ try:
     lose_life = pygame.mixer.Sound("assets/lifelost.wav")
     change_weapon = pygame.mixer.Sound("assets/changeweapon.wav")
     sound_track = pygame.mixer.music.load("assets/soundtrack.flac")
+    asteroid_hit_sound = pygame.mixer.Sound("assets/asteroidhitnoise.wav")
+
     pygame.mixer.music.set_volume(0.2)
     pygame.mixer.music.play(-1)
 except Exception as e:
@@ -112,8 +114,12 @@ def main(): # main function declaration
                     asteroid.health -= shot.damage
                     shot.kill()                                            
                     
-                    if asteroid.health <= 0:
+                    
                         # add score number based on wat size astoroid is hit
+                    if asteroid.health > 0 and asteroid_hit_sound:
+                        asteroid_hit_sound.play()
+
+                    if asteroid.health <= 0:
                         if asteroid.radius <= ASTEROID_MIN_RADIUS:
                             if small_explosion:
                                 small_explosion.play()
