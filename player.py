@@ -4,9 +4,9 @@ from constants import SCREEN_HEIGHT, SCREEN_WIDTH, PLAYER_TURN_SPEED, PLAYER_RAD
 import pygame.mixer
 try:
     pygame.mixer.init()
-    weapon_switch_sound = pygame.mixer.Sound("assets/changeweapon.wav")
-    minigun_sound = pygame.mixer.Sound("assets/minigun.wav")
-    cannon_sound = pygame.mixer.Sound("assets/cannonfire.wav")
+    weapon_switch_sound = pygame.mixer.Sound("assets/Sounds/changeweapon.wav")
+    minigun_sound = pygame.mixer.Sound("assets/Sounds/minigun.wav")
+    cannon_sound = pygame.mixer.Sound("assets/Sounds/cannonfire.wav")
 except Exception as e:
     print(f"Sound error: {e}")
 class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance

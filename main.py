@@ -10,14 +10,14 @@ import pygame.mixer
 # imports the player class from the player file
 try:
     pygame.mixer.init()
-    small_explosion = pygame.mixer.Sound("assets/small.mp3")
-    medium_explosion = pygame.mixer.Sound("assets/medium.mp3")
-    large_explosion = pygame.mixer.Sound("assets/large.mp3")
-    game_over_sound = pygame.mixer.Sound("assets/gameover.mp3")
-    lose_life = pygame.mixer.Sound("assets/lifelost.wav")
-    change_weapon = pygame.mixer.Sound("assets/changeweapon.wav")
-    sound_track = pygame.mixer.music.load("assets/soundtrack.flac")
-    asteroid_hit_sound = pygame.mixer.Sound("assets/asteroidhitnoise.wav")
+    small_explosion = pygame.mixer.Sound("assets/Sounds/small.mp3")
+    medium_explosion = pygame.mixer.Sound("assets/Sounds/medium.mp3")
+    large_explosion = pygame.mixer.Sound("assets/Sounds/large.mp3")
+    game_over_sound = pygame.mixer.Sound("assets/Sounds/gameover.mp3")
+    lose_life = pygame.mixer.Sound("assets/Sounds/lifelost.wav")
+    change_weapon = pygame.mixer.Sound("assets/Sounds/changeweapon.wav")
+    sound_track = pygame.mixer.music.load("assets/Sounds/soundtrack.flac")
+    asteroid_hit_sound = pygame.mixer.Sound("assets/Sounds/asteroidhitnoise.wav")
 
     pygame.mixer.music.set_volume(0.2)
     pygame.mixer.music.play(-1)
@@ -28,7 +28,7 @@ except Exception as e:
    
 
 def main(): # main function declaration    
-    icon = pygame.image.load('assets/asteroidicon.png')
+    icon = pygame.image.load('assets/Images/asteroidicon.png')
     pygame.init() # initializes pygame    
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # makes a screen with the dimensions of SCREEN_WIDTH and SCREEN_HEIGHT
     clock = pygame.time.Clock() # creates a clock object
@@ -37,7 +37,7 @@ def main(): # main function declaration
     pygame.display.set_caption("Asteroid Game!") # sets the title of the window
 
     #background
-    background = pygame.image.load("assets/asteroids.png").convert()  
+    background = pygame.image.load("assets/Images/asteroids.png").convert()  
     background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
    
     # starting message
