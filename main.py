@@ -73,7 +73,7 @@ def main(): # main function declaration
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                quit()              
+                quit()             
                 
         # Draw background and update the game 
         screen.blit(background, (0, 0))

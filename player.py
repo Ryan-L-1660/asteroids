@@ -163,11 +163,11 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
 
             # Set damage and cooldown based on weapon type
             if self.weapon_type == "cannon":
-                shot.damage = 50
+                shot.damage = 40
                 self.shot_cooldown = PLAYER_SHOOT_COOLDOWN
                 cannon_sound.play()
             else:  # rapid
-                shot.damage = 10
+                shot.damage = 15
                 self.shot_cooldown = PLAYER_SHOOT_COOLDOWN / 5
                 minigun_sound.play()
             
