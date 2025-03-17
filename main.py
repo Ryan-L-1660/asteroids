@@ -14,9 +14,14 @@ try:
     medium_explosion = pygame.mixer.Sound("assets/medium.mp3")
     large_explosion = pygame.mixer.Sound("assets/large.mp3")
     game_over_sound = pygame.mixer.Sound("assets/gameover.mp3")
+    lose_life = pygame.mixer.Sound("assets/lifelost.wav")
+    change_weapon = pygame.mixer.Sound("assets/changeweapon.wav")
+    sound_track = pygame.mixer.music.load("assets/soundtrack.flac")
+    pygame.mixer.music.set_volume(0.2)
+    pygame.mixer.music.play(-1)
 except Exception as e:
     print(f"Sound error: {e}")
-    small_explosion = medium_explosion = large_explosion = game_over_sound = None
+    small_explosion = medium_explosion = large_explosion = game_over_sound = lose_life = change_weapon = None
 
    
 
@@ -76,6 +81,8 @@ def main(): # main function declaration
         for asteroid in asteroids:
             if player.check_for_collision(asteroid) and not player.invulnerable:
                 lives -= 1
+                if lose_life:
+                    lose_life.play()
                 if lives > 0:
                     # respawn player
                     player.reset_position(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
@@ -83,8 +90,10 @@ def main(): # main function declaration
                     #print(f"Lives remaining: {lives}")
                 else:
                     #print("Game Over!")
+                    pygame.mixer.music.stop()
                     if game_over_sound:
                         game_over_sound.play()
+
                     game_over_font = pygame.font.Font(None, 72)
                     game_over_text = game_over_font.render("Game Over!", True, (255, 0, 0))
                     game_over_score_font = pygame.font.Font(None, 72)

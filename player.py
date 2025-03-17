@@ -1,6 +1,12 @@
 from circleshape import CircleShape, Shot
 import pygame
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH, PLAYER_TURN_SPEED, PLAYER_RADIUS, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN
+import pygame.mixer
+try:
+    pygame.mixer.init()
+    weapon_switch_sound = pygame.mixer.Sound("assets/changeweapon.wav")
+except Exception as e:
+    print(f"Sound error: {e}")
 class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
     def __init__(self, x, y):
         self.weapon_type = "cannon"
@@ -34,9 +40,14 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
         if self.weapon_type == "cannon":
             self.weapon_type = "minigun"
             print("Switched to minigun fire")
+            weapon_switch_sound.play()
         else:
             self.weapon_type = "cannon"
             print("Switched to cannon fire")
+            weapon_switch_sound.play()
+
+
+        
         
        
 
