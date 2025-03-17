@@ -6,7 +6,6 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
         self.weapon_type = "cannon"
         self.r_key_pressed = False
         self.shot_cooldown = 0
-        self.speed = PLAYER_SPEED
         # Initialize parent classes
         CircleShape.__init__(self, x, y, PLAYER_RADIUS)
         pygame.sprite.Sprite.__init__(self)
@@ -89,9 +88,9 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
         if keys[pygame.K_SPACE]:
             self.shoot()
         
-        if keys[pygame.K_r] and not self.r_key_pressed:
+        if keys[pygame.K_LSHIFT] and not self.r_key_pressed:
             self.switch_weapon()
-        self.r_key_pressed = keys[pygame.K_r]
+        self.r_key_pressed = keys[pygame.K_LSHIFT]
         
     def move(self, dt):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
@@ -108,7 +107,7 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
             self.position.y = 0
 
         self.rect.center = (self.position.x, self.position.y)
-        self.position += forward * self.speed * dt
+        
 
     def shoot(self):
         if self.shot_cooldown <= 0:

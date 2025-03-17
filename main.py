@@ -18,10 +18,8 @@ except Exception as e:
 
    
 
-def main(): # main function declaration
-    
-    pygame.init() # initializes pygame
-    
+def main(): # main function declaration    
+    pygame.init() # initializes pygame    
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # makes a screen with the dimensions of SCREEN_WIDTH and SCREEN_HEIGHT
     clock = pygame.time.Clock() # creates a clock object
     dt = 0 # delta time
@@ -55,7 +53,7 @@ def main(): # main function declaration
 
     # score and lives
     score = 0
-    lives = 10
+    lives = 3
 
 
 
@@ -69,14 +67,6 @@ def main(): # main function declaration
         # Draw background and update the game 
         screen.blit(background, (0, 0))
         updateable.update(dt)
-
-        current_speed_level = score // 500
-
-        if current_speed_level > speed_boost_level:
-            global PLAYER_SPEED
-            player.speed += 50
-            speed_boost_level = current_speed_level
-            print(f"Speed boost! New speed: {player.speed}")
               
         # Check for collisions
         for asteroid in asteroids:
@@ -86,9 +76,9 @@ def main(): # main function declaration
                     # respawn player
                     player.reset_position(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
                     player.set_invulnerable(3) # make player no die 3 seconds
-                    print(f"Lives remaining: {lives}")
+                    #print(f"Lives remaining: {lives}")
                 else:
-                    print("Game Over!")
+                    #print("Game Over!")
                     game_over_font = pygame.font.Font(None, 72)
                     game_over_text = game_over_font.render("Game Over!", True, (255, 0, 0))
                     game_over_score_font = pygame.font.Font(None, 72)
@@ -113,17 +103,17 @@ def main(): # main function declaration
                             if small_explosion:
                                 small_explosion.play()
                             score += 100 # Small
-                            print("Small asteroid destroyed +100 points")
+                            #print("Small asteroid destroyed +100 points")
                         elif asteroid.radius <= ASTEROID_MIN_RADIUS * 2:
                             if medium_explosion:
                                 medium_explosion.play()
                             score += 50 # Medium
-                            print("Medium asteroid destroyed +50 points")
+                            #print("Medium asteroid destroyed +50 points")
                         else:
                             if large_explosion:
                                 large_explosion.play() 
                             score += 20 # Large
-                            print("Large asteroid destroyed +20 points")
+                            #print("Large asteroid destroyed +20 points")
                         asteroid.split()
 
 
@@ -135,16 +125,28 @@ def main(): # main function declaration
             sprite.draw(screen)
 
         score_font = pygame.font.Font(None, 36)
-        score_text = score_font.render(f"Score: {score}", True, (255, 255, 255))
-        lives_text = score_font.render(f"Lives: {lives}", True, (255, 255, 255))
-        speed_font = pygame.font.Font(None, 36)
-        speed_text = speed_font.render(f"Speed: {PLAYER_SPEED:.1f}", True, (255, 255, 255))
+        score_text = score_font.render(f"S: {score}", True, (255, 255, 255))
+        lives_text = score_font.render(f"L: {lives}", True, (255, 255, 255))
         weapon_type_font = pygame.font.Font(None, 36)                      
-        weapon_type_text = weapon_type_font.render(f"Weapon Type: {player.weapon_type}", True, (255, 255, 255)) 
-        screen.blit(weapon_type_text, (595, 70))
-        screen.blit(score_text, (595, 10)) 
-        screen.blit(lives_text, (595, 40))
-        screen.blit(speed_text, (600, 600))
+        weapon_type_text = weapon_type_font.render(f"{player.weapon_type}", True, (255, 255, 255))
+        move_up_font = pygame.font.Font(None, 30)
+        move_up_text = move_up_font.render("Up-W", True, (255, 255, 255))
+        move_down_font = pygame.font.Font(None, 30)
+        move_down_text = move_down_font.render("Down-S", True, (255, 255, 255))
+        move_left_font = pygame.font.Font(None, 30)
+        move_left_text = move_left_font.render("Left-A", True, (255, 255, 255))
+        move_right_font = pygame.font.Font(None, 30)
+        move_right_text = move_right_font.render("Right-D", True, (255, 255, 255))
+        switch_weapon_font = pygame.font.Font(None, 30)
+        switch_weapon_text = switch_weapon_font.render("Switch Weapon-LSHIFT", True, (255, 255, 255))  
+        screen.blit(switch_weapon_text, (5, 85))                                         
+        screen.blit(move_up_text, (5, 5))
+        screen.blit(move_down_text, (5, 25))
+        screen.blit(move_left_text, (5, 45))
+        screen.blit(move_right_text, (5, 65))
+        screen.blit(weapon_type_text, (5, 1050))
+        screen.blit(score_text, (5, 990)) 
+        screen.blit(lives_text, (5, 1020))
         pygame.display.flip()
         dt = clock.tick(60) / 1000  # Sets the fps to 60 and gets the delta time
         
