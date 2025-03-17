@@ -5,7 +5,8 @@ from player import Player
 from asteroid import Asteroid 
 from asteroidfield import AsteroidField    
 from circleshape import Shot      
-import pygame.mixer                     
+import pygame.mixer
+                
 # imports the player class from the player file
 try:
     pygame.mixer.init()
@@ -19,11 +20,13 @@ except Exception as e:
    
 
 def main(): # main function declaration    
+    icon = pygame.image.load('assets/asteroidicon.png')
     pygame.init() # initializes pygame    
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # makes a screen with the dimensions of SCREEN_WIDTH and SCREEN_HEIGHT
     clock = pygame.time.Clock() # creates a clock object
     dt = 0 # delta time
-    pygame.display.set_caption("Asteroids!") # sets the title of the window
+    pygame.display.set_icon(icon)
+    pygame.display.set_caption("Asteroid Game!") # sets the title of the window
 
     #background
     background = pygame.image.load("assets/background.png").convert()  

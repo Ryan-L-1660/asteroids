@@ -51,7 +51,7 @@ class Asteroid(CircleShape):
         # Create 2 new asteroids
 
         for angle_multiplier in [1, -1]:
-            asteroid = Asteroid(self.position.x, self.position.y, new_radius, "large")
+            asteroid = Asteroid(self.position.x, self.position.y, new_radius, new_size)
 
             new_velocity = self.velocity.rotate(random_angle * angle_multiplier)
             new_velocity *= 1.2
