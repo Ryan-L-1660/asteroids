@@ -13,11 +13,11 @@ class Asteroid(CircleShape):
 
         #Health
         if size == "large":
-            self.max_health = self.health = 100
+            self.max_health = self.health = 80
         elif size == "medium":
-            self.max_health = self.health = 60
+            self.max_health = self.health = 50
         else: # small
-            self.max_health = self.health = 30
+            self.max_health = self.health = 25
         
 
         self.vertices_offsets = []
