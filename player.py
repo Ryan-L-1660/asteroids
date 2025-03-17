@@ -23,7 +23,11 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
         # add invulnerability to player 
         self.invulnerable = False
         self.invulnerable_timer = 0
-
+        # sliding
+        self.velocity_x = 0
+        self.velocity_y = 0
+        self.max_velocity = PLAYER_SPEED * 1.5
+        self.friction = 0.9
         
 
     def switch_weapon(self):
@@ -83,7 +87,7 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
             self.move(dt)
  
         if keys[pygame.K_s]:
-            self.move(-dt)
+            self.move(dt, backward=True)
 
         if keys[pygame.K_SPACE]:
             self.shoot()
@@ -91,10 +95,28 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
         if keys[pygame.K_LSHIFT] and not self.r_key_pressed:
             self.switch_weapon()
         self.r_key_pressed = keys[pygame.K_LSHIFT]
+
+        self.velocity_x *= self.friction
+        self.velocity_y *= self.friction
+
+        velocity = (self.velocity_x**2 + self.velocity_y**2)**0.5
+        if velocity > self.max_velocity:
+            scale = self.max_velocity / velocity
+            self.velocity_x *= scale
+            self.velocity_y *= scale
+            print(f"After capping: vx={self.velocity_x}, vy={self.velocity_y}, mag={((self.velocity_x**2 + self.velocity_y**2)**0.5)}")
+
+        self.position.x += self.velocity_x
+        self.position.y += self.velocity_y
+        self.rect.center = (self.position.x, self.position.y)
         
-    def move(self, dt):
+    def move(self, dt, backward=False):
         forward = pygame.Vector2(0, 1).rotate(self.rotation)
-        self.position += forward * PLAYER_SPEED * dt
+        if backward:
+            forward = -forward           
+        acceleration = PLAYER_SPEED * dt
+        self.velocity_x += forward.x * acceleration
+        self.velocity_y += forward.y * acceleration
 
         if self.position.x < 0:
             self.position.x = SCREEN_WIDTH

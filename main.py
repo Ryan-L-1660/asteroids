@@ -13,9 +13,10 @@ try:
     small_explosion = pygame.mixer.Sound("assets/small.mp3")
     medium_explosion = pygame.mixer.Sound("assets/medium.mp3")
     large_explosion = pygame.mixer.Sound("assets/large.mp3")
+    game_over_sound = pygame.mixer.Sound("assets/gameover.mp3")
 except Exception as e:
     print(f"Sound error: {e}")
-    small_explosion = medium_explosion = large_explosion = None
+    small_explosion = medium_explosion = large_explosion = game_over_sound = None
 
    
 
@@ -82,6 +83,8 @@ def main(): # main function declaration
                     #print(f"Lives remaining: {lives}")
                 else:
                     #print("Game Over!")
+                    if game_over_sound:
+                        game_over_sound.play()
                     game_over_font = pygame.font.Font(None, 72)
                     game_over_text = game_over_font.render("Game Over!", True, (255, 0, 0))
                     game_over_score_font = pygame.font.Font(None, 72)
