@@ -29,7 +29,7 @@ def main(): # main function declaration
     pygame.display.set_caption("Asteroid Game!") # sets the title of the window
 
     #background
-    background = pygame.image.load("assets/background.png").convert()  
+    background = pygame.image.load("assets/asteroids.png").convert()  
     background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
    
     # starting message
