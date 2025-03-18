@@ -14,3 +14,5 @@ TODO:
 Added sounds to most stuff
 next steps is to add a main menu
 >>>>>>> ab6cf889eb7311fd2ce972c0b1d751ab01a4822d
+
+ALL SOUNDS FROM FREESOUND.ORG
