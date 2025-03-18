@@ -13,9 +13,9 @@ class Asteroid(CircleShape):
 
         #Health
         if size == "large":
-            self.max_health = self.health = 80
+            self.max_health = self.health = 65
         elif size == "medium":
-            self.max_health = self.health = 50
+            self.max_health = self.health = 45
         else: # small
             self.max_health = self.health = 25
         

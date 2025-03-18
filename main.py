@@ -11,13 +11,13 @@ import os
 # imports the player class from the player file
 try:
     os.environ['SDL_AUDIODRIVER'] = 'directsound'
-    pygame.mixer.pre_init(44100, -16, 2, 512)
+    pygame.mixer.pre_init(44100, -16, 2, 32)
     pygame.mixer.init() 
     small_explosion = pygame.mixer.Sound("assets/Sounds/small.wav")
     medium_explosion = pygame.mixer.Sound("assets/Sounds/medium.wav")
     large_explosion = pygame.mixer.Sound("assets/Sounds/large.wav")
     game_over_sound = pygame.mixer.Sound("assets/Sounds/gameover.wav")
-    lose_life = pygame.mixer.Sound("assets/Sounds/lifelost.wav")
+    lose_life = pygame.mixer.Sound("assets/Sounds/lifelost_converted.wav")
     change_weapon = pygame.mixer.Sound("assets/Sounds/changeweapon.wav")
     sound_track = pygame.mixer.music.load("assets/Sounds/soundtrack.flac")
     asteroid_hit_sound = pygame.mixer.Sound("assets/Sounds/asteroidhitnoise.wav")
