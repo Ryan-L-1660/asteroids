@@ -6,14 +6,17 @@ from asteroid import Asteroid
 from asteroidfield import AsteroidField    
 from circleshape import Shot      
 import pygame.mixer
+import os
                 
 # imports the player class from the player file
 try:
+    os.environ['SDL_AUDIODRIVER'] = 'directsound'
+    pygame.mixer.pre_init(44100, -16, 2, 512)
     pygame.mixer.init() 
-    small_explosion = pygame.mixer.Sound("assets/Sounds/small.mp3")
-    medium_explosion = pygame.mixer.Sound("assets/Sounds/medium.mp3")
-    large_explosion = pygame.mixer.Sound("assets/Sounds/large.mp3")
-    game_over_sound = pygame.mixer.Sound("assets/Sounds/gameover.mp3")
+    small_explosion = pygame.mixer.Sound("assets/Sounds/small.wav")
+    medium_explosion = pygame.mixer.Sound("assets/Sounds/medium.wav")
+    large_explosion = pygame.mixer.Sound("assets/Sounds/large.wav")
+    game_over_sound = pygame.mixer.Sound("assets/Sounds/gameover.wav")
     lose_life = pygame.mixer.Sound("assets/Sounds/lifelost.wav")
     change_weapon = pygame.mixer.Sound("assets/Sounds/changeweapon.wav")
     sound_track = pygame.mixer.music.load("assets/Sounds/soundtrack.flac")
@@ -23,7 +26,7 @@ try:
     pygame.mixer.music.play(-1)
 except Exception as e:
     print(f"Sound error: {e}")
-    small_explosion = medium_explosion = large_explosion = game_over_sound = lose_life = change_weapon = None
+    small_explosion = medium_explosion = large_explosion = game_over_sound = lose_life = change_weapon = sound_track = asteroid_hit_sound = None
 
    
 
