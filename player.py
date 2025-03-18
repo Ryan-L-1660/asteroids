@@ -3,7 +3,7 @@ import pygame
 from constants import SCREEN_HEIGHT, SCREEN_WIDTH, PLAYER_TURN_SPEED, PLAYER_RADIUS, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN
 import pygame.mixer
 try:
-    pygame.mixer.init()
+    pygame.mixer.init() 
     weapon_switch_sound = pygame.mixer.Sound("assets/Sounds/changeweapon.wav")
     minigun_sound = pygame.mixer.Sound("assets/Sounds/minigun.wav")
     cannon_sound = pygame.mixer.Sound("assets/Sounds/cannonfire.wav")

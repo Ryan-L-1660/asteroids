@@ -9,7 +9,7 @@ import pygame.mixer
                 
 # imports the player class from the player file
 try:
-    pygame.mixer.init()
+    pygame.mixer.init() 
     small_explosion = pygame.mixer.Sound("assets/Sounds/small.mp3")
     medium_explosion = pygame.mixer.Sound("assets/Sounds/medium.mp3")
     large_explosion = pygame.mixer.Sound("assets/Sounds/large.mp3")
