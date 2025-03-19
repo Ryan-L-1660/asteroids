@@ -22,10 +22,11 @@ try:
     lose_life = pygame.mixer.Sound("assets/Sounds/lifelost_converted.wav")
     change_weapon = pygame.mixer.Sound("assets/Sounds/changeweapon.wav")   
     asteroid_hit_sound = pygame.mixer.Sound("assets/Sounds/asteroidhitnoise.wav")
+    
 
     # Soundtrack settings
     pygame.mixer.music.load("assets/Sounds/soundtrack.ogg")
-    pygame.mixer.music.set_volume(0.1)
+    pygame.mixer.music.set_volume(0.15)
     pygame.mixer.music.play(-1)
 
     # If sounds can't be found return an error in terminal
