@@ -10,19 +10,16 @@ import os
                 
 # imports the player class from the player file
 try:
-    os.environ['SDL_AUDIODRIVER'] = 'directsound'
-    pygame.mixer.pre_init(44100, -16, 2, 32)
-    pygame.mixer.init() 
+    pygame.mixer.init()
     small_explosion = pygame.mixer.Sound("assets/Sounds/small.wav")
     medium_explosion = pygame.mixer.Sound("assets/Sounds/medium.wav")
     large_explosion = pygame.mixer.Sound("assets/Sounds/large.wav")
     game_over_sound = pygame.mixer.Sound("assets/Sounds/gameover.wav")
     lose_life = pygame.mixer.Sound("assets/Sounds/lifelost_converted.wav")
-    change_weapon = pygame.mixer.Sound("assets/Sounds/changeweapon.wav")
-    sound_track = pygame.mixer.music.load("assets/Sounds/soundtrack.flac")
+    change_weapon = pygame.mixer.Sound("assets/Sounds/changeweapon.wav")   
     asteroid_hit_sound = pygame.mixer.Sound("assets/Sounds/asteroidhitnoise.wav")
-
-    pygame.mixer.music.set_volume(0.2)
+    pygame.mixer.music.load("assets/Sounds/soundtrack.ogg")
+    pygame.mixer.music.set_volume(0.1)
     pygame.mixer.music.play(-1)
 except Exception as e:
     print(f"Sound error: {e}")
@@ -98,6 +95,7 @@ def main(): # main function declaration
                     pygame.mixer.music.stop()
                     if game_over_sound:
                         game_over_sound.play()
+                        pygame.time.wait(3000)
 
                     game_over_font = pygame.font.Font(None, 72)
                     game_over_text = game_over_font.render("Game Over!", True, (255, 0, 0))
