@@ -5,12 +5,16 @@ from player import Player
 from asteroid import Asteroid 
 from asteroidfield import AsteroidField    
 from circleshape import Shot      
-import pygame.mixer
+import pygame.mixer 
 import os
                 
 # imports the player class from the player file
 try:
-    pygame.mixer.init()
+    # initalizing pygame and pygame.mixer  
+    pygame.mixer.pre_init(44100, 16, -2, 1024)
+    pygame.mixer.init() 
+    pygame.init()
+    # Sound effect storage  
     small_explosion = pygame.mixer.Sound("assets/Sounds/small.wav")
     medium_explosion = pygame.mixer.Sound("assets/Sounds/medium.wav")
     large_explosion = pygame.mixer.Sound("assets/Sounds/large.wav")
@@ -18,9 +22,13 @@ try:
     lose_life = pygame.mixer.Sound("assets/Sounds/lifelost_converted.wav")
     change_weapon = pygame.mixer.Sound("assets/Sounds/changeweapon.wav")   
     asteroid_hit_sound = pygame.mixer.Sound("assets/Sounds/asteroidhitnoise.wav")
+
+    # Soundtrack settings
     pygame.mixer.music.load("assets/Sounds/soundtrack.ogg")
     pygame.mixer.music.set_volume(0.1)
     pygame.mixer.music.play(-1)
+
+    # If sounds can't be found return an error in terminal
 except Exception as e:
     print(f"Sound error: {e}")
     small_explosion = medium_explosion = large_explosion = game_over_sound = lose_life = change_weapon = sound_track = asteroid_hit_sound = None
@@ -28,8 +36,7 @@ except Exception as e:
    
 
 def main(): # main function declaration    
-    icon = pygame.image.load('assets/Images/asteroidicon.png')
-    pygame.init() # initializes pygame    
+    icon = pygame.image.load('assets/Images/asteroidicon.png')    
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # makes a screen with the dimensions of SCREEN_WIDTH and SCREEN_HEIGHT
     clock = pygame.time.Clock() # creates a clock object
     dt = 0 # delta time
@@ -84,7 +91,7 @@ def main(): # main function declaration
             if player.check_for_collision(asteroid) and not player.invulnerable:
                 lives -= 1
                 if lose_life:
-                    lose_life.play()
+                    lose_life.play(fade_ms=100)
                 if lives > 0:
                     # respawn player
                     player.reset_position(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
@@ -123,17 +130,17 @@ def main(): # main function declaration
                     if asteroid.health <= 0:
                         if asteroid.radius <= ASTEROID_MIN_RADIUS:
                             if small_explosion:
-                                small_explosion.play()
+                                small_explosion.play(fade_ms=100)
                             score += 100 # Small
                             #print("Small asteroid destroyed +100 points")
                         elif asteroid.radius <= ASTEROID_MIN_RADIUS * 2:
                             if medium_explosion:
-                                medium_explosion.play()
+                                medium_explosion.play(fade_ms=100)
                             score += 50 # Medium
                             #print("Medium asteroid destroyed +50 points")
                         else:
                             if large_explosion:
-                                large_explosion.play() 
+                                large_explosion.play(fade_ms=100) 
                             score += 20 # Large
                             #print("Large asteroid destroyed +20 points")
                         asteroid.split()
