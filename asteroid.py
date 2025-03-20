@@ -1,35 +1,35 @@
 import pygame
-from circleshape import CircleShape
-from constants import WHITE, ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS, SCREEN_HEIGHT, SCREEN_WIDTH # Make sure WHITE is defined in constants.py
-import random
+from circleshape import CircleShape # importing the only thing I need from cricleshape.py
+from constants import WHITE, ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS, SCREEN_HEIGHT, SCREEN_WIDTH # Importing only the things I need from constants.py
+import random 
 import math
 
-class Asteroid(CircleShape):
+class Asteroid(CircleShape): # The parent asteroid class 
     containers = None 
 
+    # Defining the radius and size of the asteroid
     def __init__(self, x, y, radius, size):
         # initialize parent class 
         CircleShape.__init__(self, x, y, radius)
-
-        #Health
-        if size == "large":
+        # How much health each size of asteroid has large has 65, medium has 45, small has 25.
+        if size == "large": 
             self.max_health = self.health = 65
         elif size == "medium":
             self.max_health = self.health = 45
-        else: # small
+        else: # small since it is easier to do this than find the size of small.
             self.max_health = self.health = 25
         
 
         self.vertices_offsets = []
         num_vertices = random.randint(6, 10)
+        # Making the asteroids lumpy and imperfect instead of perfect circles for more realistic asteroids. 
         for i in range(num_vertices):
-            angle = 2 * math.pi * i / num_vertices
-            # Vary the radius a bit for each vertex to create lumpiness
+            angle = 2 * math.pi * i / num_vertices           
             jitter = random.uniform(0.8, 1.2)
             offset_x = self.radius * jitter * math.cos(angle)
             offset_y = self.radius * jitter * math.sin(angle)
             self.vertices_offsets.append((offset_x, offset_y))
-    
+    # added splitting into the smaller and smaller asteroids large = 2 medium, medium = 2 small.
     def split(self):
         self.kill()
 

@@ -14,7 +14,7 @@ try:
     pygame.mixer.pre_init(44100, 16, -2, 1024)
     pygame.mixer.init() 
     pygame.init()
-    # Sound effect storage  
+    # Sound effect storage for decreased lag. 
     small_explosion = pygame.mixer.Sound("assets/Sounds/small.wav")
     medium_explosion = pygame.mixer.Sound("assets/Sounds/medium.wav")
     large_explosion = pygame.mixer.Sound("assets/Sounds/large.wav")
@@ -24,7 +24,7 @@ try:
     asteroid_hit_sound = pygame.mixer.Sound("assets/Sounds/asteroidhitnoise.wav")
     
 
-    # Soundtrack settings
+    # Soundtrack loading volume and making it play in a loop infinitly 
     pygame.mixer.music.load("assets/Sounds/soundtrack.ogg")
     pygame.mixer.music.set_volume(0.15)
     pygame.mixer.music.play(-1)
@@ -36,21 +36,21 @@ except Exception as e:
 
    
 
-def main(): # main function declaration    
+def main(): # <---- main function declaration    
     icon = pygame.image.load('assets/Images/asteroidicon.png')    
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # makes a screen with the dimensions of SCREEN_WIDTH and SCREEN_HEIGHT
     clock = pygame.time.Clock() # creates a clock object
     dt = 0 # delta time
-    pygame.display.set_icon(icon)
+    pygame.display.set_icon(icon) # making an icon for the game so it doesn't look so plain
     pygame.display.set_caption("Asteroid Game!") # sets the title of the window
 
     #background
-    background = pygame.image.load("assets/Images/asteroids.png").convert()  
-    background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))
+    background = pygame.image.load("assets/Images/asteroids.png").convert()  # loading background image 
+    background = pygame.transform.scale(background, (SCREEN_WIDTH, SCREEN_HEIGHT)) # the background resolution which is 1920x1080
    
-    # starting message
+    # Starting messages to terminal
     print("Starting Asteroids!")
-    print("Screen width:",SCREEN_WIDTH)  # prints the screen width and height and starting message
+    print("Screen width:",SCREEN_WIDTH)  
     print("Screen height:",SCREEN_HEIGHT)
  
     # Initialize groups first
@@ -70,7 +70,7 @@ def main(): # main function declaration
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
     asteroid_field = AsteroidField()  # Create it only once
 
-    # score and lives
+    # Variables for player Score and player lives.
     score = 0
     lives = 3
 
@@ -179,6 +179,7 @@ def main(): # main function declaration
         screen.blit(lives_text, (5, 1020))
         pygame.display.flip()
         dt = clock.tick(60) / 1000  # Sets the fps to 60 and gets the delta time
+        print(f"FPS: {clock.get_fps():.2f}")
         
 
 if __name__ == "__main__":

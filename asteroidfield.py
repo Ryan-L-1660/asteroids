@@ -1,7 +1,7 @@
 import pygame
 import random
 from asteroid import Asteroid
-from constants import *
+from constants import * # <---- import everything from constants.py instead of only importhing the things I would need
 
 
 class AsteroidField(pygame.sprite.Sprite):
