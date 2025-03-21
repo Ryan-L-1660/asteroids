@@ -150,7 +150,7 @@ def main(): # <---- main function declaration
 
 
     
-        
+        # Display font for score, weapon type, lives, and controls
         for sprite in drawable:
             sprite.draw(screen)
 
