@@ -1,3 +1,4 @@
+# imports
 import pygame
 from constants import SHOT_RADIUS, PLAYER_SHOOT_SPEED
 

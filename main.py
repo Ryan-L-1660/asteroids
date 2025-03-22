@@ -34,7 +34,7 @@ except Exception as e:
     print(f"Sound error: {e}")
     small_explosion = medium_explosion = large_explosion = game_over_sound = lose_life = change_weapon = sound_track = asteroid_hit_sound = None
 
-   
+ 
 
 def main(): # <---- main function declaration    
     icon = pygame.image.load('assets/Images/asteroidicon.png')    
@@ -73,6 +73,7 @@ def main(): # <---- main function declaration
     # Variables for player Score and player lives.
     score = 0
     lives = 3
+    
 
 
 
@@ -179,7 +180,7 @@ def main(): # <---- main function declaration
         screen.blit(lives_text, (5, 1020))
         pygame.display.flip()
         dt = clock.tick(60) / 1000  # Sets the fps to 60 and gets the delta time
-        print(f"FPS: {clock.get_fps():.2f}")
+        
         
 
 if __name__ == "__main__":
