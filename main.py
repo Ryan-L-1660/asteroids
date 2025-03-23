@@ -36,16 +36,17 @@ except Exception as e:
     print(f"Sound error: {e}")
     small_explosion = medium_explosion = large_explosion = game_over_sound = lose_life = change_weapon = sound_track = asteroid_hit_sound = None
 
- 
-high_score_file = 'highscore.json' 
+
+
+
 def main(): # <---- main function declaration   
     icon = pygame.image.load('assets/Images/asteroidicon.png')    
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # makes a screen with the dimensions of SCREEN_WIDTH and SCREEN_HEIGHT
     clock = pygame.time.Clock() # creates a clock object
     dt = 0 # delta time
     pygame.display.set_icon(icon) # making an icon for the game so it doesn't look so plain
-    pygame.display.set_caption("Asteroid Game!") # sets the title of the window
-    high_score = "highscore.json"
+    pygame.display.set_caption("Asteroid Game! --Ryan") # sets the title of the window
+    
 
 
     #background
@@ -54,8 +55,7 @@ def main(): # <---- main function declaration
    
     # Starting messages to terminal
     print("Starting Asteroids!")
-    print("Screen width:",SCREEN_WIDTH)  
-    print("Screen height:",SCREEN_HEIGHT)
+
  
     # Initialize groups first
     updateable = pygame.sprite.Group()
@@ -78,10 +78,6 @@ def main(): # <---- main function declaration
     #high_score = 0
     score = 0
     lives = 3
-
-
-    
-
 
 
 
@@ -171,22 +167,27 @@ def main(): # <---- main function declaration
         # Display font for score, weapon type, lives, and controls
         for sprite in drawable:
             sprite.draw(screen)
-
+        
+        
         score_font = pygame.font.Font(None, 36)
-        score_text = score_font.render(f"S: {score}", True, (255, 255, 255))
         lives_text = score_font.render(f"L: {lives}", True, (255, 255, 255))
-        weapon_type_font = pygame.font.Font(None, 36)                      
-        weapon_type_text = weapon_type_font.render(f"{player.weapon_type}", True, (255, 255, 255))
-        move_up_font = pygame.font.Font(None, 30)
-        move_up_text = move_up_font.render("Up-W", True, (255, 255, 255))
-        move_down_font = pygame.font.Font(None, 30)
-        move_down_text = move_down_font.render("Down-S", True, (255, 255, 255))
-        move_left_font = pygame.font.Font(None, 30)
-        move_left_text = move_left_font.render("Left-A", True, (255, 255, 255))
-        move_right_font = pygame.font.Font(None, 30)
-        move_right_text = move_right_font.render("Right-D", True, (255, 255, 255))
-        switch_weapon_font = pygame.font.Font(None, 30)
-        switch_weapon_text = switch_weapon_font.render("Switch Weapon-LSHIFT", True, (255, 255, 255))  
+        
+        score_text = score_font.render(f"S: {score}", True, (255, 255, 255))
+        
+        
+        # Controls
+        controls_font = pygame.font.Font(None, 25) # Master Font
+                              
+        weapon_type_text = controls_font.render(f"{player.weapon_type}", True, (255, 255, 255))
+        move_up_text = controls_font.render(f"UP-W", True, (255, 255, 255))
+        move_down_text = controls_font.render(f"DOWN-S", True, (255, 255, 255))  
+        move_left_text = controls_font.render(f"LEFT-A", True, (255, 255, 255))
+        move_right_text = controls_font.render(f"RIGHT-D", True, (255, 255, 255))     
+        switch_weapon_text = controls_font.render("Switch Weapon-LSHIFT", True, (255, 255, 255))
+        quit_text = controls_font.render(f"Quit-ESC", True, (255, 255, 255))
+        
+        # blit the text onto the dispaly
+        screen.blit(quit_text, (5, 105))  
         screen.blit(switch_weapon_text, (5, 85))                                         
         screen.blit(move_up_text, (5, 5))
         screen.blit(move_down_text, (5, 25))
