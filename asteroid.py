@@ -4,7 +4,7 @@ from constants import WHITE, ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS, SCREEN_HE
 import random 
 import math
 
-class Asteroid(CircleShape): # The parent asteroid class 
+class Asteroid(CircleShape): # The parent asteroid class    
     containers = None 
 
     # Defining the radius and size of the asteroid

@@ -1,14 +1,16 @@
 # imports the pygame module
 import pygame
-from constants import SCREEN_WIDTH, SCREEN_HEIGHT, PLAYER_SHOOT_SPEED, ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS, PLAYER_SPEED 
+from constants import PLAYER_SHOOT_SPEED, ASTEROID_MIN_RADIUS, ASTEROID_MAX_RADIUS, PLAYER_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH
 from player import Player
 from asteroid import Asteroid 
 from asteroidfield import AsteroidField    
 from circleshape import Shot      
 import pygame.mixer 
 import os
-                
+from os import path
+import json
 # imports the player class from the player file
+
 try:
     # initalizing pygame and pygame.mixer  
     pygame.mixer.pre_init(44100, 16, -2, 1024)
@@ -35,14 +37,16 @@ except Exception as e:
     small_explosion = medium_explosion = large_explosion = game_over_sound = lose_life = change_weapon = sound_track = asteroid_hit_sound = None
 
  
-
-def main(): # <---- main function declaration    
+high_score_file = 'highscore.json' 
+def main(): # <---- main function declaration   
     icon = pygame.image.load('assets/Images/asteroidicon.png')    
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # makes a screen with the dimensions of SCREEN_WIDTH and SCREEN_HEIGHT
     clock = pygame.time.Clock() # creates a clock object
     dt = 0 # delta time
     pygame.display.set_icon(icon) # making an icon for the game so it doesn't look so plain
     pygame.display.set_caption("Asteroid Game!") # sets the title of the window
+    high_score = "highscore.json"
+
 
     #background
     background = pygame.image.load("assets/Images/asteroids.png").convert()  # loading background image 
@@ -68,12 +72,16 @@ def main(): # <---- main function declaration
 
     # Then create instances
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
-    asteroid_field = AsteroidField()  # Create it only once
+    asteroid_field = AsteroidField()  # Create it only 
 
     # Variables for player Score and player lives.
+    #high_score = 0
     score = 0
     lives = 3
+
+
     
+
 
 
 
@@ -82,18 +90,27 @@ def main(): # <---- main function declaration
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                quit()             
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    quit()
+                
+                
+                             
                 
         # Draw background and update the game 
         screen.blit(background, (0, 0))
         updateable.update(dt)
+
+
               
         # Check for collisions
         for asteroid in asteroids:
             if player.check_for_collision(asteroid) and not player.invulnerable:
                 lives -= 1
                 if lose_life:
-                    lose_life.play(fade_ms=100)
+                    lose_life.play()
                 if lives > 0:
                     # respawn player
                     player.reset_position(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)

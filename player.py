@@ -1,7 +1,10 @@
 from circleshape import CircleShape, Shot
 import pygame
-from constants import SCREEN_HEIGHT, SCREEN_WIDTH, PLAYER_TURN_SPEED, PLAYER_RADIUS, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN
+from constants import PLAYER_TURN_SPEED, PLAYER_RADIUS, PLAYER_SPEED, PLAYER_SHOOT_SPEED, PLAYER_SHOOT_COOLDOWN, SCREEN_WIDTH, SCREEN_HEIGHT
 import pygame.mixer
+import os
+from os import path
+
 try:
     pygame.mixer.init() 
     weapon_switch_sound = pygame.mixer.Sound("assets/Sounds/changeweapon.wav")
@@ -9,13 +12,18 @@ try:
     cannon_sound = pygame.mixer.Sound("assets/Sounds/cannonfire.wav")
 except Exception as e:
     print(f"Sound error: {e}")
+pygame.init()
+
+
 class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
     def __init__(self, x, y):
         self.weapon_type = "cannon"
         self.r_key_pressed = False
         self.shot_cooldown = 0
+        self.radius = SCREEN_WIDTH * 0.02
+        self.speed = SCREEN_WIDTH * 0.01
         # Initialize parent classes
-        CircleShape.__init__(self, x, y, PLAYER_RADIUS)
+        CircleShape.__init__(self, x, y, self.radius)
         pygame.sprite.Sprite.__init__(self)
         # Rotation angle and position
         self.rotation = 0
@@ -40,12 +48,10 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
 
     def switch_weapon(self):
         if self.weapon_type == "cannon":
-            self.weapon_type = "minigun"
-            print("Switched to minigun fire")
+            self.weapon_type = "minigun"          
             weapon_switch_sound.play()
         else:
             self.weapon_type = "cannon"
-            print("Switched to cannon fire")
             weapon_switch_sound.play()
 
 
@@ -107,6 +113,7 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
         
         if keys[pygame.K_LSHIFT] and not self.r_key_pressed:
             self.switch_weapon()
+            
         self.r_key_pressed = keys[pygame.K_LSHIFT]
 
         self.velocity_x *= self.friction
@@ -166,7 +173,7 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
                 shot.damage = 40
                 self.shot_cooldown = PLAYER_SHOOT_COOLDOWN
                 cannon_sound.play()
-            else:  # rapid
+            else:  # Minigun
                 shot.damage = 15
                 self.shot_cooldown = PLAYER_SHOOT_COOLDOWN / 5
                 minigun_sound.play()
