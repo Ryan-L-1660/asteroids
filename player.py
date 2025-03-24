@@ -11,7 +11,7 @@ try:
     minigun_sound = pygame.mixer.Sound("assets/Sounds/minigun.wav")
     cannon_sound = pygame.mixer.Sound("assets/Sounds/cannonfire.wav")
 except Exception as e:
-    print(f"Sound error: {e}")
+    print(f"Sound file cannot be found in the directory.{e}")
 pygame.init()
 
 
@@ -20,7 +20,7 @@ class Player(CircleShape, pygame.sprite.Sprite):  # Multiple inheritance
         self.weapon_type = "cannon"
         self.r_key_pressed = False
         self.shot_cooldown = 0
-        self.radius = SCREEN_WIDTH * 0.02
+        self.radius = SCREEN_WIDTH * 0.01
         self.speed = SCREEN_WIDTH * 0.01
         # Initialize parent classes
         CircleShape.__init__(self, x, y, self.radius)
