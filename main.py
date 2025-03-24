@@ -36,6 +36,85 @@ except Exception as e:
     print(f"Sound error: {e}")
     small_explosion = medium_explosion = large_explosion = game_over_sound = lose_life = change_weapon = sound_track = asteroid_hit_sound = None
 
+# Menu that pops up when player hits esc 
+def pause_menu(screen, player):
+    """ Displays a pause menu with controls, resume & exit options. """
+    paused_surface = screen.copy()  # Snapshot of the game
+    blur_surface = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
+    blur_surface.fill((0, 0, 0, 180))  # Dark overlay for blur effect
+
+    # Fonts
+    font = pygame.font.Font(None, 50)
+    controls_font = pygame.font.Font(None, 30)
+
+    # Buttons
+    resume_text = font.render("Resume", True, (255, 255, 255))
+    exit_text = font.render("Exit", True, (255, 255, 255))
+
+    resume_rect = resume_text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 50))
+    exit_rect = exit_text.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2 + 100))
+
+    # Control instructions
+    controls_text = [
+        "CONTROLS:",
+        "Move: W A S D",
+        "Shoot: Spacebar",
+        "Switch Weapon: LShift",
+        "Pause: ESC"
+    ]
+    control_surfaces = [controls_font.render(line, True, (255, 255, 255)) for line in controls_text]
+
+    pygame.mixer.music.set_volume(0.05)  # Lower volume while paused
+
+    selected_option = 0  # 0 = Resume, 1 = Exit
+
+    paused = True
+    while paused:
+        screen.blit(paused_surface, (0, 0))  # Show frozen game state
+        screen.blit(blur_surface, (0, 0))  # Darken screen
+
+        # Highlight selected option
+        resume_color = (255, 255, 0) if selected_option == 0 else (255, 255, 255)
+        exit_color = (255, 255, 0) if selected_option == 1 else (255, 255, 255)
+
+        resume_text = font.render("Resume", True, resume_color)
+        exit_text = font.render("Exit", True, exit_color)
+
+        # Draw buttons
+        screen.blit(resume_text, resume_rect)
+        screen.blit(exit_text, exit_rect)
+
+        # Draw controls
+        y_offset = SCREEN_HEIGHT // 2 - 150
+        for surface in control_surfaces:
+            screen.blit(surface, (SCREEN_WIDTH // 2 - 100, y_offset))
+            y_offset += 40
+
+        pygame.display.flip()
+
+        # Handle pause menu input
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
+            if event.type == pygame.KEYDOWN:
+                if event.key in (pygame.K_DOWN, pygame.K_s):
+                    selected_option = (selected_option + 1) % 2  # Toggle between 0 and 1
+                if event.key in (pygame.K_UP, pygame.K_w):
+                    selected_option = (selected_option - 1) % 2  # Toggle between 0 and 1
+
+                if event.key in (pygame.K_RETURN, pygame.K_SPACE):
+                    if selected_option == 0:  # Resume
+                        paused = False
+                    elif selected_option == 1:  # Exit
+                        pygame.quit()
+                        quit()
+
+                if event.key == pygame.K_ESCAPE:  # Resume on ESC
+                    paused = False
+
+    pygame.mixer.music.set_volume(0.15)  # Restore music volume when resuming
 
 
 
@@ -89,8 +168,8 @@ def main(): # <---- main function declaration
                 quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    quit()
+                    pause_menu(screen, player)
+                    
                 
                 
                              
@@ -176,23 +255,22 @@ def main(): # <---- main function declaration
         
         
         # Controls
-        controls_font = pygame.font.Font(None, 25) # Master Font
-                              
+        controls_font = pygame.font.Font(None, 36) # Master Font                    
         weapon_type_text = controls_font.render(f"{player.weapon_type}", True, (255, 255, 255))
-        move_up_text = controls_font.render(f"UP-W", True, (255, 255, 255))
-        move_down_text = controls_font.render(f"DOWN-S", True, (255, 255, 255))  
-        move_left_text = controls_font.render(f"LEFT-A", True, (255, 255, 255))
-        move_right_text = controls_font.render(f"RIGHT-D", True, (255, 255, 255))     
-        switch_weapon_text = controls_font.render("Switch Weapon-LSHIFT", True, (255, 255, 255))
-        quit_text = controls_font.render(f"Quit-ESC", True, (255, 255, 255))
         
+        #move_up_text = controls_font.render(f"UP-W", True, (255, 255, 255))
+        #move_down_text = controls_font.render(f"DOWN-S", True, (255, 255, 255))  
+        #move_left_text = controls_font.render(f"LEFT-A", True, (255, 255, 255))
+        #move_right_text = controls_font.render(f"RIGHT-D", True, (255, 255, 255))     
+        #switch_weapon_text = controls_font.render("Switch Weapon-LSHIFT", True, (255, 255, 255))
+        #quit_text = controls_font.render(f"Quit-ESC", True, (255, 255, 255))
         # blit the text onto the dispaly
-        screen.blit(quit_text, (5, 105))  
-        screen.blit(switch_weapon_text, (5, 85))                                         
-        screen.blit(move_up_text, (5, 5))
-        screen.blit(move_down_text, (5, 25))
-        screen.blit(move_left_text, (5, 45))
-        screen.blit(move_right_text, (5, 65))
+        #screen.blit(quit_text, (5, 105))  
+        #screen.blit(switch_weapon_text, (5, 85))                                         
+        #screen.blit(move_up_text, (5, 5))
+        #screen.blit(move_down_text, (5, 25))
+       # screen.blit(move_left_text, (5, 45))
+        #screen.blit(move_right_text, (5, 65))
         screen.blit(weapon_type_text, (5, 1050))
         screen.blit(score_text, (5, 990)) 
         screen.blit(lives_text, (5, 1020))
